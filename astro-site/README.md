@@ -1,8 +1,14 @@
 # HEJ Film — 헤이필름 홈스냅 (Astro SSG)
 
 스냅사진 작가 **헤이필름**의 포트폴리오 웹사이트입니다.
-Kimi로 1차 생성된 Vite + React 원페이지 앱을 **Astro 정적 사이트(SSG)** 구조로 리팩토링하여,
+Kimi로 1차 생성된 Vite + React 앱을 **Astro 정적 사이트(SSG)** 구조로 리팩토링하여,
 Cloudflare Pages에 백엔드 없이 배포할 수 있도록 최적화했습니다.
+
+**원페이지(One-page) 구조**입니다. 한 화면에서 스크롤하면
+Hero → Philosophy → Work → About → Guide → Contact 가 순서대로 이어지고,
+상단/모바일 메뉴를 누르면 해당 섹션으로 부드럽게 스크롤됩니다(페이지 전환 없음).
+콘텐츠·컴포넌트는 유지보수를 위해 파일 단위로 분리되어 있지만,
+빌드 결과는 `index.html` 한 페이지로 합쳐집니다.
 
 ## 기술 스택
 
@@ -30,16 +36,12 @@ astro-site/
 │  │  ├─ SectionHeading.astro
 │  │  ├─ HeroSlot.astro    # 히어로 이미지 크로스페이드
 │  │  └─ Gallery.astro     # 카테고리 필터 + 라이트박스
-│  ├─ pages/               # 멀티페이지 라우트 (파일 = URL)
-│  │  ├─ index.astro       # /        홈 (히어로 + Philosophy)
-│  │  ├─ work.astro        # /work    포트폴리오
-│  │  ├─ about.astro       # /about   작가 소개
-│  │  ├─ guide.astro       # /guide   촬영 안내
-│  │  ├─ contact.astro     # /contact 인스타·카카오 연결
+│  ├─ pages/
+│  │  ├─ index.astro       # /  원페이지 본문 (Hero·Philosophy·Work·About·Guide·Contact)
 │  │  └─ 404.astro
 │  ├─ scripts/
-│  │  ├─ ui.ts             # 공통 인터랙션 (헤더·스크롤·모바일메뉴·히어로)
-│  │  └─ gallery.ts        # 갤러리 필터·라이트박스 (필요 페이지만 로드)
+│  │  ├─ ui.ts             # 인터랙션 (헤더·스크롤·모바일메뉴·히어로·앵커스크롤·스크롤스파이)
+│  │  └─ gallery.ts        # 갤러리 필터·라이트박스 (필요 시 동적 로드)
 │  └─ styles/
 │     └─ global.css        # 디자인 토큰 + 공통 유틸
 ├─ astro.config.mjs

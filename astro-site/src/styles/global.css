@@ -12,10 +12,17 @@
 
     --color-bg: #f7f6f3;
     --color-ink: #1a1a1a;
-    --color-accent: #c4a882;
-    --color-muted: #8c8278;
+    --color-accent: #c4a882; /* 장식용 골드(라인·밑줄 등) */
+    --color-accent-dark: #8a6d44; /* 텍스트/버튼용 — 흰 글자 대비 AA 확보(4.8:1) */
+    --color-muted: #74695f; /* 본문 보조색 — bg 위 4.95:1로 AA 통과 */
     --color-card: #f5f3ee;
     --color-photo-paper: #ede8df;
+
+    /* 다크 섹션(헤더 solid·푸터·Contact)용 토큰 */
+    --color-dark: #1f1d1b; /* 짙은 차콜 배경 */
+    --color-dark-soft: #2a2724; /* 다크 위 카드/구분 배경 */
+    --color-on-dark: #f4f1ec; /* 다크 위 기본 글자(아이보리) */
+    --color-on-dark-muted: #9c948a; /* 다크 위 보조 글자 — 4.5:1 이상 */
   }
 
   html {
@@ -36,6 +43,18 @@
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
+  }
+
+  /* 모바일 메뉴가 열렸을 때 배경 스크롤 잠금.
+     스크롤바가 사라지며 생기는 레이아웃 시프트(화면 흔들림)를
+     사라진 스크롤바 폭(--scrollbar-comp)만큼 패딩으로 보정한다.
+     고정 헤더도 동일하게 보정해 함께 흔들리지 않도록 한다. */
+  body.menu-locked {
+    overflow: hidden;
+    padding-right: var(--scrollbar-comp, 0px);
+  }
+  body.menu-locked #site-header {
+    padding-right: var(--scrollbar-comp, 0px);
   }
 }
 
@@ -58,12 +77,13 @@
     background: var(--color-accent);
   }
 
-  /* 스크롤 등장 애니메이션 (IntersectionObserver와 연동) */
+  /* 스크롤 등장 애니메이션 (IntersectionObserver와 연동)
+     히어로 첫 진입 임팩트 대비 본문은 경쾌하게 — 0.55s, 이동거리 28px */
   .reveal {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(28px);
+    transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   .reveal.is-visible {
     opacity: 1;

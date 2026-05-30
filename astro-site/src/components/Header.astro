@@ -2,19 +2,15 @@
 /**
  * Header — 고정 상단 바 + 데스크톱 내비 + 모바일 햄버거
  * transparent=true 이면 페이지 최상단에서 투명, 스크롤 시 solid로 전환됩니다.
- * (전환 로직은 scripts/ui.ts 에서 data-transparent 속성을 보고 처리)
+ * 원페이지 구조이므로 메뉴는 섹션 앵커(#work 등)로 이동하며,
+ * 현재 보고 있는 섹션의 활성 표시는 scripts/ui.ts의 스크롤 스파이가 처리합니다.
  */
 import { navLinks, site } from '../data/site';
 
 interface Props {
   transparent?: boolean;
-  pathname: string;
 }
-const { transparent = false, pathname } = Astro.props;
-
-// 현재 경로와 비교해 활성 링크 표시
-const isActive = (href: string) =>
-  href === '/' ? pathname === '/' : pathname.startsWith(href);
+const { transparent = false } = Astro.props;
 ---
 
 <header
@@ -38,7 +34,8 @@ const isActive = (href: string) =>
         navLinks.map((link) => (
           <a
             href={link.href}
-            class:list={['hdr-link relative font-serif', isActive(link.href) && 'is-current']}
+            data-nav={link.href.replace('#', '')}
+            class="hdr-link relative font-serif"
           >
             {link.label}
           </a>
@@ -78,27 +75,27 @@ const isActive = (href: string) =>
     background: #ffffff;
   }
 
-  /* ── solid 상태 : 잉크 글자 + 블러 배경 ── */
+  /* ── solid 상태 : 짙은 차콜 배경 + 아이보리 글자 ── */
   #site-header.is-solid,
   #site-header.scrolled {
-    background: rgba(245, 240, 232, 0.92);
+    background: rgba(31, 29, 27, 0.92); /* --color-dark + 블러 */
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   #site-header.is-solid .hdr-brand,
   #site-header.scrolled .hdr-brand,
   #site-header.is-solid .hdr-link,
   #site-header.scrolled .hdr-link {
-    color: var(--color-ink);
+    color: var(--color-on-dark);
   }
   #site-header.is-solid .hdr-sub,
   #site-header.scrolled .hdr-sub {
-    color: var(--color-muted);
+    color: var(--color-on-dark-muted);
   }
   #site-header.is-solid .hdr-bar,
   #site-header.scrolled .hdr-bar {
-    background: var(--color-ink);
+    background: var(--color-on-dark);
   }
 
   .hdr-link {

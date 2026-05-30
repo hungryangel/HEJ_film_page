@@ -6,6 +6,7 @@
 function initFilter() {
   const tabs = document.querySelectorAll<HTMLButtonElement>('.cat-tab');
   const items = document.querySelectorAll<HTMLElement>('.gallery-item');
+  const empty = document.getElementById('gallery-empty');
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -17,10 +18,15 @@ function initFilter() {
         t.setAttribute('aria-selected', active ? 'true' : 'false');
       });
 
+      let visible = 0;
       items.forEach((item) => {
         const show = filter === 'all' || item.dataset.category === filter;
         item.classList.toggle('is-hidden', !show);
+        if (show) visible++;
       });
+
+      // 결과가 없는 카테고리(예: Wedding)일 때 안내 문구 표시
+      if (empty) empty.hidden = visible !== 0;
     });
   });
 }

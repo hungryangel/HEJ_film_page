@@ -38,12 +38,12 @@ export const contactLinks = {
   kakaoLabel: 'KakaoTalk hejfilm_',
 };
 
-/* 상단 내비게이션 (멀티페이지 라우트) */
+/* 상단 내비게이션 (원페이지 섹션 앵커) */
 export const navLinks: NavLink[] = [
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Guide', href: '/guide' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Work', href: '#work' },
+  { label: 'About', href: '#about' },
+  { label: 'Guide', href: '#guide' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 /* 히어로 이미지 슬롯 */

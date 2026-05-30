@@ -28,6 +28,12 @@ export const site = {
   photographer: 'hej.u',
   location: 'SEOUL',
   copyright: '© 2026 HEJ FILM · ALL RECORDS RESERVED',
+
+  /* 링크 공유(카톡·인스타·SNS) 미리보기 전용 문구 — 브랜드 감성 멘트 */
+  ogTitle: 'HEJ Film · 헤이필름',
+  ogDescription:
+    '안녕한 기록 — 자연광이 머무는 집에서, 가장 아늑하고 따뜻한 찰나의 순간을 담는 홈스냅.',
+  ogImage: '/images/og-image.jpg',
 };
 
 /* 외부 연락처 링크 — Contact 버튼에서 사용 */

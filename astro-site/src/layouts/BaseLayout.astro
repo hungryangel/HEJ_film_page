@@ -25,9 +25,13 @@ const {
 const pathname = Astro.url.pathname;
 // 정규 URL (site가 설정된 경우에만 절대 URL 생성)
 const canonical = Astro.site ? new URL(pathname, Astro.site).href : pathname;
+
+// 공유 미리보기 전용 문구·이미지 (브랜드 감성 멘트)
+const shareTitle = site.ogTitle;
+const shareDesc = site.ogDescription;
 const ogImage = Astro.site
-  ? new URL('/images/hero-1.jpg', Astro.site).href
-  : '/images/hero-1.jpg';
+  ? new URL(site.ogImage, Astro.site).href
+  : site.ogImage;
 ---
 
 <!doctype html>
@@ -39,13 +43,23 @@ const ogImage = Astro.site
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <!-- Open Graph / SNS 공유 -->
+    <!-- Open Graph / SNS 공유 (카카오톡·페이스북 등) -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="HEJ Film" />
+    <meta property="og:title" content={shareTitle} />
+    <meta property="og:description" content={shareDesc} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HEJ Film 헤이필름 — 안녕한 기록" />
+    {canonical && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content="ko_KR" />
+
+    <!-- Twitter/X 카드 -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={shareTitle} />
+    <meta name="twitter:description" content={shareDesc} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

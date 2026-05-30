@@ -11,12 +11,7 @@ import { site, contactLinks } from '../data/site';
 
 <footer class="footer-dark w-full" style="background:var(--color-dark);">
   <div class="reveal footer-inner container-1200">
-    <!-- 왼쪽: 필기체 시그니처 -->
-    <p class="footer-signature font-script" aria-hidden="true">
-      {site.signature}
-    </p>
-
-    <!-- 오른쪽: 핸들 · 카피라이트 · 크레딧 -->
+    <!-- 핸들 · 카피라이트 · 크레딧 -->
     <div class="footer-meta">
       <a
         href={contactLinks.instagram}
@@ -65,16 +60,7 @@ import { site, contactLinks } from '../data/site';
     padding-bottom: 64px;
   }
 
-  /* 필기체 시그니처 */
-  .footer-signature {
-    font-size: clamp(26px, 3.4vw, 34px);
-    line-height: 1.2;
-    color: var(--color-accent);
-    /* 살짝 밝게 — 다크 배경에서 골드가 충분히 떠 보이도록 */
-    opacity: 0.92;
-  }
-
-  /* 오른쪽 메타 묶음 */
+  /* 메타 묶음 (핸들·카피라이트·크레딧) */
   .footer-meta {
     display: flex;
     flex-direction: column;
@@ -115,14 +101,8 @@ import { site, contactLinks } from '../data/site';
     }
   }
 
-  /* ── 데스크톱: 좌(시그니처) / 우(메타) 한 줄 배치 ── */
+  /* ── 데스크톱: 핸들·카피라이트·크레딧을 한 줄 중앙 배치 ── */
   @media (min-width: 768px) {
-    .footer-inner {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
-      gap: 24px;
-    }
     .footer-meta {
       flex-direction: row;
       align-items: center;

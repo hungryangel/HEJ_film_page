@@ -84,10 +84,10 @@ import {
         href={contactLinks.instagram}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-block font-sans transition-all duration-300 hover:bg-ink hover:text-bg"
+        class="btn-outline inline-block font-sans transition-all duration-300"
         style="font-size:14px;color:var(--color-ink);border:1px solid var(--color-ink);padding:14px 36px;"
       >
-        전체 포트폴리오 보기
+        전체 기록 보기 — {contactLinks.instagramHandle}
       </a>
     </div>
   </section>
@@ -241,11 +241,25 @@ import {
     height: 100svh;
   }
 
-  /* 다크 Contact 섹션의 인스타(아웃라인) 버튼 — hover 시 아이보리 반전 */
-  .btn-ig:hover {
-    background: var(--color-on-dark);
-    color: var(--color-dark) !important;
-    border-color: var(--color-on-dark);
+  /* hover 반전 효과는 마우스가 있는 기기에서만 적용.
+     터치 기기에서는 탭 후 hover 상태가 남아 버튼이 검게 굳는 문제를 방지한다. */
+  @media (hover: hover) {
+    /* Work 섹션 아웃라인 버튼(밝은 배경) — 잉크 반전 */
+    .btn-outline:hover {
+      background: var(--color-ink);
+      color: var(--color-bg);
+    }
+    /* 다크 Contact 섹션 인스타(아웃라인) 버튼 — 아이보리 반전 */
+    .btn-ig:hover {
+      background: var(--color-on-dark);
+      color: var(--color-dark) !important;
+      border-color: var(--color-on-dark);
+    }
+  }
+  /* 탭 시 순간적인 회색 하이라이트 제거 */
+  .btn-outline,
+  .btn-ig {
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* 히어로 텍스트: 왼쪽 → 오른쪽으로 글이 써지듯 나타나는 효과

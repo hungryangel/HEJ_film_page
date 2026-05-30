@@ -33,6 +33,7 @@ export const site = {
 /* 외부 연락처 링크 — Contact 버튼에서 사용 */
 export const contactLinks = {
   instagram: 'https://www.instagram.com/hej___u',
+  instagramHandle: '@hej___u',
   instagramLabel: 'Instagram @hej___u',
   kakao: 'https://pf.kakao.com/hejfilm_',
   kakaoLabel: 'KakaoTalk hejfilm_',

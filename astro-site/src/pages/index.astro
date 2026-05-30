@@ -1,0 +1,222 @@
+---
+/**
+ * 홈 — 원페이지형 전체 미리보기
+ * Hero → Philosophy → Work → About → Guide → Contact 를 한 페이지에 모두 노출하고,
+ * 각 섹션은 전용 페이지(/work, /about, /guide, /contact)로도 이동할 수 있습니다.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSlot from '../components/HeroSlot.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Gallery from '../components/Gallery.astro';
+import {
+  hero,
+  philosophy,
+  site,
+  about,
+  guidePackage,
+  guideDetails,
+  contactLinks,
+} from '../data/site';
+---
+
+<BaseLayout transparentHeader={true}>
+  <!-- ─── Hero ─── -->
+  <section class="relative w-full overflow-hidden" style="height:100vh;">
+    <div class="absolute inset-0 flex" style="gap:3px;">
+      <!-- 좌 65% : 메인 -->
+      <HeroSlot images={[hero.main]} class="h-full" style="width:65%;">
+        <div
+          class="absolute inset-0 z-10"
+          style="background:linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 55%);"
+        >
+        </div>
+        <div class="absolute bottom-12 left-8 z-20 md:bottom-16 md:left-12 animate-fade-in-up" style="animation-delay:0.8s;">
+          <h1 class="font-serif" style="font-size:clamp(48px,8vw,80px);font-weight:300;color:#fff;line-height:1;text-shadow:0 2px 40px rgba(0,0,0,0.35);">
+            {site.brand}
+          </h1>
+          <p class="font-serif" style="font-size:clamp(18px,3vw,28px);font-weight:300;color:#fff;margin-top:4px;">
+            {site.brandSub}
+          </p>
+          <p class="font-sans" style="font-size:18px;font-weight:300;color:#fff;opacity:0.9;margin-top:16px;">
+            안녕한 기록,
+          </p>
+        </div>
+      </HeroSlot>
+
+      <!-- 우 35% : 회전 슬롯 2개 -->
+      <div class="flex flex-col" style="width:35%;gap:3px;">
+        <HeroSlot images={hero.rightTop} class="w-full" style="height:60%;" />
+        <HeroSlot images={hero.rightBottom} class="w-full" style="height:40%;" />
+      </div>
+    </div>
+
+    <!-- 스크롤 인디케이터 -->
+    <div class="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 animate-bounce-down" style="opacity:0.6;">
+      <span class="font-serif" style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#fff;">scroll</span>
+      <span class="block" style="width:1px;height:40px;background:rgba(255,255,255,0.6);"></span>
+    </div>
+  </section>
+
+  <!-- ─── Philosophy ─── -->
+  <section class="container-1200" style="padding-top:160px;padding-bottom:160px;">
+    <div class="reveal text-center">
+      <div class="accent-rule" style="margin:0 auto 48px;"></div>
+      <p class="font-serif text-muted" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.2em;">
+        Philosophy
+      </p>
+      <p class="mx-auto font-sans text-ink" style="max-width:480px;font-size:clamp(16px,2vw,20px);font-weight:300;line-height:2;margin-top:32px;">
+        {philosophy.map((line, i) => (
+          <>{line}{i < philosophy.length - 1 && <br />}</>
+        ))}
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Work ─── -->
+  <section id="work" class="container-1200" style="padding-top:120px;padding-bottom:120px;">
+    <SectionHeading title="Work" subtitle="함께한 기록들" />
+    <Gallery />
+    <div class="reveal mt-12 text-center">
+      <a
+        href="/work"
+        class="inline-block font-sans transition-all duration-300 hover:bg-ink hover:text-bg"
+        style="font-size:14px;color:var(--color-ink);border:1px solid var(--color-ink);padding:14px 36px;"
+      >
+        전체 포트폴리오 보기
+      </a>
+    </div>
+  </section>
+
+  <!-- ─── About ─── -->
+  <section id="about" class="container-1200" style="padding-top:120px;padding-bottom:120px;">
+    <div class="flex flex-col items-center gap-12 md:flex-row md:gap-20">
+      <!-- 사진 -->
+      <div class="reveal reveal-left flex w-full justify-center md:w-[45%]">
+        <img
+          src="/images/profile.png"
+          alt="헤이필름 작가"
+          loading="lazy"
+          class="w-full object-cover"
+          style="max-width:420px;aspect-ratio:1/1;"
+        />
+      </div>
+
+      <!-- 텍스트 -->
+      <div class="reveal reveal-right w-full md:w-[55%]">
+        <h2 class="font-serif italic text-ink" style="font-size:clamp(36px,5vw,48px);font-weight:300;">
+          About
+        </h2>
+        <p class="text-muted" style="font-size:18px;font-weight:300;margin-top:24px;">
+          {about.tagline}
+        </p>
+        <div class="accent-rule" style="margin-top:20px;"></div>
+        <p class="text-ink" style="font-size:16px;font-weight:300;line-height:1.9;margin-top:24px;">
+          {about.body.map((line, i) => (
+            <>{line}{i < about.body.length - 1 && <br />}</>
+          ))}
+        </p>
+        <div style="margin-top:48px;">
+          <p class="font-serif text-muted" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.2em;">
+            Photographer
+          </p>
+          <p class="text-ink" style="font-size:14px;margin-top:8px;letter-spacing:0.02em;">
+            {site.photographer}
+          </p>
+          <p class="text-muted" style="font-size:12px;font-weight:300;margin-top:4px;letter-spacing:0.08em;">
+            · {site.location}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Guide ─── -->
+  <section id="guide" class="container-1200" style="padding-top:120px;padding-bottom:120px;">
+    <SectionHeading title="Guide" subtitle="촬영 안내" />
+
+    <!-- 패키지 카드 -->
+    <div
+      class="reveal mx-auto"
+      style="max-width:640px;background:var(--color-card);border:1px solid rgba(26,26,26,0.06);padding:56px 48px;"
+    >
+      <div class="flex items-baseline gap-3">
+        <h3 class="font-serif italic text-ink" style="font-size:32px;font-weight:400;">
+          {guidePackage.title}
+        </h3>
+        <span class="text-muted" style="font-size:14px;">{guidePackage.ko}</span>
+      </div>
+      <p class="text-ink" style="font-size:16px;margin-top:12px;">{guidePackage.types}</p>
+
+      <div style="width:100%;height:1px;background:rgba(26,26,26,0.08);margin:32px 0;"></div>
+
+      <ul style="display:flex;flex-direction:column;gap:8px;">
+        {
+          guidePackage.features.map((item) => (
+            <li class="text-muted" style="font-size:14px;line-height:2;">
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- 디테일 카드 -->
+    <div class="mx-auto mt-12 grid grid-cols-1 gap-6 md:grid-cols-2" style="max-width:800px;">
+      {
+        guideDetails.map((card) => (
+          <div
+            class="reveal p-8"
+            style="background:var(--color-card);border:1px solid rgba(26,26,26,0.06);"
+          >
+            <h4 class="font-serif italic text-ink" style="font-size:24px;font-weight:400;">
+              {card.title}
+            </h4>
+            <p class="text-muted" style="font-size:12px;margin-top:4px;">
+              {card.ko}
+            </p>
+            <p class="text-muted" style="font-size:14px;line-height:1.7;margin-top:12px;">
+              {card.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ─── Contact ─── -->
+  <section id="contact" class="container-1200 text-center" style="padding-top:120px;padding-bottom:120px;">
+    <SectionHeading title="Contact" subtitle="문의" />
+
+    <p
+      class="reveal mx-auto font-sans text-ink"
+      style="max-width:480px;font-size:16px;font-weight:300;line-height:1.8;margin-top:40px;"
+    >
+      소중한 순간을 함께 기록하고 싶으시다면<br />
+      언제든지 연락주세요.
+    </p>
+
+    <div
+      class="reveal mx-auto mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
+      style="max-width:560px;"
+    >
+      <a
+        href={contactLinks.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full text-center font-sans transition-all duration-300 hover:bg-ink hover:text-bg sm:w-auto"
+        style="font-size:14px;color:var(--color-ink);border:1px solid var(--color-ink);padding:16px 40px;"
+      >
+        {contactLinks.instagramLabel}
+      </a>
+      <a
+        href={contactLinks.kakao}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full text-center font-sans transition-all duration-300 hover:brightness-90 sm:w-auto"
+        style="font-size:14px;color:#fff;background:var(--color-accent);padding:16px 40px;"
+      >
+        {contactLinks.kakaoLabel}
+      </a>
+    </div>
+  </section>
+</BaseLayout>

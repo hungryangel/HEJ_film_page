@@ -1,0 +1,77 @@
+---
+/**
+ * BaseLayout — 모든 페이지의 공통 뼈대
+ * head 메타(SEO/OG), 폰트, 글로벌 CSS, Header/Footer를 포함합니다.
+ */
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 홈처럼 풀스크린 히어로 위에 헤더를 투명하게 얹을 때 true */
+  transparentHeader?: boolean;
+}
+
+const {
+  title = site.titleSuffix,
+  description = site.description,
+  transparentHeader = false,
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+// 정규 URL (site가 설정된 경우에만 절대 URL 생성)
+const canonical = Astro.site ? new URL(pathname, Astro.site).href : pathname;
+const ogImage = Astro.site
+  ? new URL('/images/hero-1.jpg', Astro.site).href
+  : '/images/hero-1.jpg';
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph / SNS 공유 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+  </head>
+  <body>
+    <Header transparent={transparentHeader} pathname={pathname} />
+    <MobileMenu />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- 공통 인터랙션 스크립트 (헤더 스크롤, 스크롤 등장, 모바일 메뉴) -->
+    <script>
+      import '../scripts/ui.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+---
+/**
+ * Gallery — 카테고리 필터 + 마소너리 그리드 + 라이트박스 트리거
+ * 필터/라이트박스 동작은 scripts/gallery.ts 에서 처리합니다.
+ */
+import { galleryItems, categories } from '../data/site';
+---
+
+<!-- 카테고리 탭 -->
+<div class="reveal mb-12 flex flex-wrap justify-center gap-6" role="tablist" aria-label="작품 카테고리">
+  {
+    categories.map((cat) => (
+      <button
+        type="button"
+        class:list={['cat-tab relative pb-1', cat.key === 'all' && 'is-active']}
+        data-filter={cat.key}
+        role="tab"
+        aria-selected={cat.key === 'all' ? 'true' : 'false'}
+      >
+        {cat.label}
+      </button>
+    ))
+  }
+</div>
+
+<!-- 마소너리 그리드 -->
+<div class="gallery-grid columns-1 gap-3 md:columns-2 lg:columns-3" id="gallery-grid">
+  {
+    galleryItems.map((item) => (
+      <button
+        type="button"
+        class="gallery-item mb-3 block w-full cursor-pointer overflow-hidden break-inside-avoid"
+        data-category={item.category}
+        data-src={item.src}
+        data-alt={item.alt}
+        aria-label={`${item.alt} 크게 보기`}
+      >
+        <img
+          src={item.src}
+          alt={item.alt}
+          loading="lazy"
+          class="w-full object-cover transition-all duration-500 hover:scale-[1.02] hover:brightness-105"
+          style={`aspect-ratio:${item.ratio};`}
+        />
+      </button>
+    ))
+  }
+</div>
+
+<!-- 라이트박스 (기본 숨김) -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="확대 이미지">
+  <button id="lightbox-close" class="lightbox-close font-serif" aria-label="닫기">×</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<style>
+  .cat-tab {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-muted);
+    transition: color 0.3s;
+  }
+  .cat-tab.is-active {
+    color: var(--color-ink);
+  }
+  .cat-tab::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 0;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+  .cat-tab.is-active::after {
+    width: 100%;
+  }
+  .gallery-item.is-hidden {
+    display: none;
+  }
+
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 26, 26, 0.95);
+  }
+  .lightbox.open {
+    display: flex;
+    animation: lb-fade 0.3s ease-out forwards;
+  }
+  .lightbox img#lightbox-img {
+    max-height: 90vh;
+    max-width: 90vw;
+    object-fit: contain;
+    animation: lb-scale 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-size: 30px;
+    line-height: 1;
+    color: #fff;
+    transition: opacity 0.2s;
+  }
+  .lightbox-close:hover {
+    opacity: 0.7;
+  }
+  @keyframes lb-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes lb-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

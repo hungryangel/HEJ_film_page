@@ -1,0 +1,129 @@
+---
+/**
+ * Header — 고정 상단 바 + 데스크톱 내비 + 모바일 햄버거
+ * transparent=true 이면 페이지 최상단에서 투명, 스크롤 시 solid로 전환됩니다.
+ * (전환 로직은 scripts/ui.ts 에서 data-transparent 속성을 보고 처리)
+ */
+import { navLinks, site } from '../data/site';
+
+interface Props {
+  transparent?: boolean;
+  pathname: string;
+}
+const { transparent = false, pathname } = Astro.props;
+
+// 현재 경로와 비교해 활성 링크 표시
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header
+  id="site-header"
+  data-transparent={transparent ? 'true' : 'false'}
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 h-[72px] transition-all duration-500',
+    transparent ? 'is-top' : 'is-solid',
+  ]}
+>
+  <div class="container-1200 flex h-full items-center justify-between">
+    <!-- 워드마크 -->
+    <a href="/" class="flex items-baseline gap-2" aria-label="HEJ Film 홈">
+      <span class="hdr-brand font-serif text-xl tracking-[0.12em]">{site.brand}</span>
+      <span class="hdr-sub font-serif text-sm font-light tracking-[0.08em]">{site.brandSub}</span>
+    </a>
+
+    <!-- 데스크톱 내비 -->
+    <nav class="hidden items-center gap-8 md:flex" aria-label="주요 메뉴">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={['hdr-link relative font-serif', isActive(link.href) && 'is-current']}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- 모바일 햄버거 -->
+    <button
+      id="menu-open"
+      class="flex flex-col gap-[5px] p-2 md:hidden"
+      aria-label="메뉴 열기"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+    >
+      <span class="hdr-bar block h-[1.5px] w-5"></span>
+      <span class="hdr-bar block h-[1.5px] w-5"></span>
+      <span class="hdr-bar block h-[1.5px] w-3"></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  /* ── 투명(최상단) 상태 : 흰 글자 ── */
+  #site-header.is-top {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+  }
+  #site-header.is-top .hdr-brand,
+  #site-header.is-top .hdr-link {
+    color: #ffffff;
+  }
+  #site-header.is-top .hdr-sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  #site-header.is-top .hdr-bar {
+    background: #ffffff;
+  }
+
+  /* ── solid 상태 : 잉크 글자 + 블러 배경 ── */
+  #site-header.is-solid,
+  #site-header.scrolled {
+    background: rgba(245, 240, 232, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+  }
+  #site-header.is-solid .hdr-brand,
+  #site-header.scrolled .hdr-brand,
+  #site-header.is-solid .hdr-link,
+  #site-header.scrolled .hdr-link {
+    color: var(--color-ink);
+  }
+  #site-header.is-solid .hdr-sub,
+  #site-header.scrolled .hdr-sub {
+    color: var(--color-muted);
+  }
+  #site-header.is-solid .hdr-bar,
+  #site-header.scrolled .hdr-bar {
+    background: var(--color-ink);
+  }
+
+  .hdr-link {
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color 0.5s, opacity 0.3s;
+  }
+  /* 밑줄 인디케이터 */
+  .hdr-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 0;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  .hdr-link:hover::after,
+  .hdr-link.is-current::after {
+    width: 100%;
+  }
+  .hdr-bar {
+    transition: background-color 0.5s;
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+/**
+ * MobileMenu — 전체화면 모바일 내비 오버레이
+ * 기본 숨김. scripts/ui.ts 가 햄버거 클릭 시 .open 클래스를 토글합니다.
+ */
+import { navLinks } from '../data/site';
+---
+
+<div id="mobile-menu" class="mobile-menu" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
+  <button id="menu-close" class="absolute right-6 top-6 font-serif text-3xl text-ink" aria-label="메뉴 닫기">
+    ×
+  </button>
+  <nav class="flex flex-col items-center gap-8" aria-label="모바일 주요 메뉴">
+    {
+      navLinks.map((link) => (
+        <a href={link.href} class="font-serif text-2xl font-light tracking-[0.08em] text-ink">
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+  }
+  .mobile-menu.open {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

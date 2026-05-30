@@ -1,0 +1,34 @@
+---
+/**
+ * HeroSlot — 여러 이미지를 4초 크로스페이드로 순환시키는 슬롯
+ * 이미지가 1장이면 정적으로 표시됩니다. (전환 로직: scripts/ui.ts)
+ */
+interface Props {
+  images: string[];
+  interval?: number;
+  class?: string;
+  style?: string;
+}
+const { images, interval = 12000, class: className = '', style = '' } = Astro.props;
+---
+
+<div
+  class:list={['hero-slot relative overflow-hidden', className]}
+  style={style}
+  data-interval={interval}
+>
+  {
+    images.map((src, i) => (
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        loading={i === 0 ? 'eager' : 'lazy'}
+        class="absolute inset-0 h-full w-full object-cover"
+        style={`opacity:${i === 0 ? 1 : 0};transition:opacity 4s ease-in-out;`}
+        data-slide={i}
+      />
+    ))
+  }
+  <slot />
+</div>

@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ──────────────────────────────────────────────
+   브랜드 디자인 토큰 (색상 · 폰트)
+   ────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --color-bg: #f7f6f3;
+    --color-ink: #1a1a1a;
+    --color-accent: #c4a882;
+    --color-muted: #8c8278;
+    --color-card: #f5f3ee;
+    --color-photo-paper: #ede8df;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.02em;
+    line-height: 1.6;
+  }
+
+  /* 접근성: 키보드 포커스 표시 */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   공통 유틸 · 컴포넌트 클래스
+   ────────────────────────────────────────────── */
+@layer components {
+  /* 섹션 공통 컨테이너 */
+  .container-1200 {
+    @apply mx-auto w-full;
+    max-width: 1200px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* 섹션 제목 하단 짧은 라인 */
+  .accent-rule {
+    width: 40px;
+    height: 1px;
+    background: var(--color-accent);
+  }
+
+  /* 스크롤 등장 애니메이션 (IntersectionObserver와 연동) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* 좌우 슬라이드 변형 */
+  .reveal-left {
+    transform: translateX(-40px);
+  }
+  .reveal-right {
+    transform: translateX(40px);
+  }
+  .reveal-left.is-visible,
+  .reveal-right.is-visible {
+    transform: translateX(0);
+  }
+
+  /* 모션 최소화 선호 시 애니메이션 비활성화 */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+---
+/**
+ * Work — 작품 포트폴리오 (카테고리 필터 + 라이트박스)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Gallery from '../components/Gallery.astro';
+---
+
+<BaseLayout title={`Work — ${'HEJ Film 헤이필름'}`} description="헤이필름이 함께한 홈스냅·커플·가족·만삭 촬영 포트폴리오">
+  <section class="container-1200" style="padding-top:152px;padding-bottom:120px;">
+    <SectionHeading title="Work" subtitle="함께한 기록들" />
+    <Gallery />
+  </section>
+</BaseLayout>

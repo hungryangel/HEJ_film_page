@@ -1,0 +1,41 @@
+---
+/**
+ * SectionHeading — 섹션 공통 제목 (이탤릭 영문 + 한글 부제 + 액센트 라인)
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+  /** 'eyebrow' = 작은 대문자 라벨형(Philosophy 스타일), 'display' = 큰 이탤릭 제목형 */
+  variant?: 'display' | 'eyebrow';
+}
+const { title, subtitle, variant = 'display' } = Astro.props;
+---
+
+{
+  variant === 'display' ? (
+    <div class="reveal mb-12 text-center">
+      <h2
+        class="font-serif italic text-ink"
+        style="font-size:clamp(36px,5vw,48px);font-weight:300;"
+      >
+        {title}
+      </h2>
+      {subtitle && (
+        <p class="text-muted" style="font-size:14px;margin-top:8px;">
+          {subtitle}
+        </p>
+      )}
+      <div class="accent-rule" style="margin:20px auto 0;" />
+    </div>
+  ) : (
+    <div class="reveal text-center">
+      <div class="accent-rule" style="margin:0 auto 48px;" />
+      <p
+        class="font-serif text-muted"
+        style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.2em;"
+      >
+        {title}
+      </p>
+    </div>
+  )
+}

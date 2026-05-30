@@ -127,7 +127,8 @@ function scrollToHash(hash: string) {
 }
 
 function initAnchorNav() {
-  // 헤더·모바일메뉴·페이지 내 모든 해시 링크를 가로채 헤더 높이를 보정한 스무스 스크롤로 처리
+  // 헤더·모바일메뉴·페이지 내 모든 해시 링크를 가로채 헤더 높이를 보정한 스무스 스크롤로 처리.
+  // 원페이지 구조이므로 URL에는 해시를 남기지 않는다(새로고침 시 항상 히어로에서 시작되도록).
   const links = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"], a[href="/"]');
   links.forEach((link) => {
     link.addEventListener('click', (e) => {
@@ -135,8 +136,6 @@ function initAnchorNav() {
       const hash = href === '/' ? '' : href;
       e.preventDefault();
       scrollToHash(hash);
-      // URL 해시 갱신(뒤로가기/공유용), 점프 없이
-      history.replaceState(null, '', href === '/' ? location.pathname : href);
     });
   });
 }
@@ -176,6 +175,16 @@ function initScrollSpy() {
 
 /* ── 부트 ───────────────────────────────────────── */
 function boot() {
+  // 새로고침 시 브라우저가 이전 스크롤 위치를 복원하지 않도록 한다(항상 맨 위에서 시작).
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  // URL에 남은 해시(#work 등)가 있으면 제거하고 맨 위로 이동.
+  if (location.hash) {
+    history.replaceState(null, '', location.pathname);
+    window.scrollTo(0, 0);
+  }
+
   initHeader();
   initReveal();
   initMobileMenu();

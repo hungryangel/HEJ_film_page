@@ -78,9 +78,7 @@ const { transparent = false } = Astro.props;
   /* ── solid 상태 : 짙은 차콜 배경 + 아이보리 글자 ── */
   #site-header.is-solid,
   #site-header.scrolled {
-    background: rgba(31, 29, 27, 0.92); /* --color-dark + 블러 */
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: var(--color-dark); /* Contact·Footer와 동일한 불투명 차콜 */
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   #site-header.is-solid .hdr-brand,

@@ -28,6 +28,8 @@ export const site = {
   photographer: 'hej.u',
   location: 'SEOUL',
   copyright: '© 2026 HEJ FILM · ALL RECORDS RESERVED',
+  /* 푸터 필기체 태그라인 — '사랑의 시선으로 담은 여러분의 시간' */
+  signature: 'Your moments, captured with a loving gaze',
 
   /* 링크 공유(카톡·인스타·SNS) 미리보기 전용 문구 — 브랜드 감성 멘트 */
   ogTitle: 'HEJ Film · 헤이필름',

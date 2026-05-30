@@ -190,7 +190,7 @@ import {
 
   <!-- ─── Contact (다크 섹션) ─── -->
   <section id="contact" class="contact-dark" style="background:var(--color-dark);">
-    <div class="container-1200 text-center" style="padding-top:120px;padding-bottom:120px;">
+    <div class="contact-inner container-1200 text-center">
       <div class="reveal text-center">
         <div class="accent-rule" style="margin:0 auto 20px;"></div>
         <h2 class="font-serif italic" style="font-size:clamp(36px,5vw,48px);font-weight:300;color:var(--color-on-dark);">
@@ -227,6 +227,24 @@ import {
   .hero-section {
     height: 100vh; /* 폴백 */
     height: 100svh;
+  }
+
+  /* Contact 내부: 기본(데스크톱)은 상하 120px 패딩 */
+  .contact-inner {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+  /* 모바일: 콘텐츠를 사용자 기기 화면 높이(svh) 기준 세로 중앙에 배치.
+     마지막 섹션이라 짧아도 화면 한가운데에 오도록 한다. */
+  @media (max-width: 767px) {
+    .contact-inner {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
   }
 
   /* hover 반전 효과는 마우스가 있는 기기에서만 적용.

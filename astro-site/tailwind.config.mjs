@@ -15,6 +15,7 @@ export default {
       fontFamily: {
         serif: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        script: ['Parisienne', 'cursive'],
       },
       keyframes: {
         fadeIn: {

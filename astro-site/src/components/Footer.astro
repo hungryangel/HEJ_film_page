@@ -1,52 +1,49 @@
 ---
 /**
- * Footer — 인스타 핸들 + 카피라이트 + 제작 크레딧 (절제된 미니멀)
- *  · 배경에 옅은 "HEJ" 세리프 워터마크
- *  · 스크롤이 닿으면 콘텐츠가 페이드인 (.reveal — ui.ts의 IntersectionObserver 연동)
+ * Footer
+ *  · 필기체 영문 태그라인(브랜드 정체성)
+ *  · 인스타 핸들 + 카피라이트 + 제작 크레딧
+ *  · 데스크톱: 좌(시그니처) / 우(메타) 한 줄 배치 · 모바일: 중앙 세로 정렬
+ *  · 스크롤이 닿으면 페이드인 (.reveal — ui.ts IntersectionObserver 연동)
  */
-import { site } from '../data/site';
-import { contactLinks } from '../data/site';
+import { site, contactLinks } from '../data/site';
 ---
 
 <footer class="footer-dark w-full" style="background:var(--color-dark);">
-  <!-- 배경 워터마크 (장식, 스크린리더 무시) -->
-  <span class="footer-watermark font-serif" aria-hidden="true">{site.brand}</span>
-
-  <div
-    class="reveal container-1200 flex flex-col items-center justify-center text-center"
-    style="padding-top:72px; padding-bottom:72px; gap:14px; position:relative; z-index:1;"
-  >
-    <!-- 인스타 핸들 — 바로 연락처로 -->
-    <a
-      href={contactLinks.instagram}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="footer-handle font-serif"
-      aria-label={`인스타그램 ${contactLinks.instagramHandle}`}
-    >
-      {contactLinks.instagramHandle}
-    </a>
-
-    <p class="footer-copy" style="color:var(--color-on-dark-muted);">
-      {site.copyright}
+  <div class="reveal footer-inner container-1200">
+    <!-- 왼쪽: 필기체 시그니처 -->
+    <p class="footer-signature font-script" aria-hidden="true">
+      {site.signature}
     </p>
 
-    <a
-      href="https://www.velnoc.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="footer-credit"
-    >
-      Made with VELNOC
-    </a>
+    <!-- 오른쪽: 핸들 · 카피라이트 · 크레딧 -->
+    <div class="footer-meta">
+      <a
+        href={contactLinks.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-handle font-serif"
+        aria-label={`인스타그램 ${contactLinks.instagramHandle}`}
+      >
+        {contactLinks.instagramHandle}
+      </a>
+      <span class="footer-divider" aria-hidden="true"></span>
+      <p class="footer-copy">{site.copyright}</p>
+      <a
+        href="https://www.velnoc.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-credit"
+      >
+        Made with VELNOC
+      </a>
+    </div>
   </div>
 </footer>
 
 <style>
-  /* 상단에 골드 헤어라인을 가운데로 갈수록 옅어지게 — 절제된 고급감 */
+  /* 상단 골드 헤어라인 (가운데로 갈수록 옅어짐) */
   .footer-dark {
-    position: relative;
-    overflow: hidden;
     border-top: 1px solid transparent;
     border-image: linear-gradient(
         to right,
@@ -57,37 +54,49 @@ import { contactLinks } from '../data/site';
       1;
   }
 
-  /* 배경 워터마크: 거의 안 보일 정도(약 3%)의 큰 세리프 "HEJ" */
-  .footer-watermark {
-    position: absolute;
-    left: 50%;
-    bottom: -0.28em;
-    transform: translateX(-50%);
-    font-size: clamp(140px, 26vw, 300px);
-    line-height: 1;
-    font-weight: 300;
-    letter-spacing: 0.08em;
-    color: #ffffff;
-    opacity: 0.03;
-    pointer-events: none;
-    white-space: nowrap;
-    user-select: none;
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 18px;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
 
-  /* 인스타 핸들 */
+  /* 필기체 시그니처 */
+  .footer-signature {
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.2;
+    color: var(--color-accent);
+    /* 살짝 밝게 — 다크 배경에서 골드가 충분히 떠 보이도록 */
+    opacity: 0.92;
+  }
+
+  /* 오른쪽 메타 묶음 */
+  .footer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
   .footer-handle {
     font-size: 15px;
     letter-spacing: 0.08em;
     color: var(--color-on-dark);
     transition: color 0.3s;
   }
-
+  /* 데스크톱 한 줄 배치에서만 보이는 점 구분자 */
+  .footer-divider {
+    display: none;
+  }
   .footer-copy {
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 0.16em;
+    color: var(--color-on-dark-muted);
   }
-
   .footer-credit {
     font-size: 11px;
     letter-spacing: 0.12em;
@@ -103,6 +112,30 @@ import { contactLinks } from '../data/site';
     .footer-credit:hover {
       opacity: 1;
       color: var(--color-accent);
+    }
+  }
+
+  /* ── 데스크톱: 좌(시그니처) / 우(메타) 한 줄 배치 ── */
+  @media (min-width: 768px) {
+    .footer-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+      gap: 24px;
+    }
+    .footer-meta {
+      flex-direction: row;
+      align-items: center;
+      gap: 18px;
+    }
+    /* 메타 항목 사이 골드 점 구분자 */
+    .footer-divider {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      opacity: 0.5;
     }
   }
 </style>
